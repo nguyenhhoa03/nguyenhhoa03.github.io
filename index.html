@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Nguyen Huu Hoa - Developer Profile</title>
     <style>
         * {
             margin: 0;
@@ -14,306 +14,413 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
-            height: 100vh;
-            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background: #000;
         }
 
-        .scroll-container {
+        #bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #bg-container img {
+            height: 100%;
+            width: auto;
+            display: block;
+            filter: brightness(0.8);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
             display: flex;
-            overflow-x: auto;
-            overflow-y: hidden;
-            scroll-snap-type: x mandatory;
-            height: 100vh;
-            scroll-behavior: smooth;
-            background-image: url('bg.png');
-            background-size: 7680px 100%;
-            background-repeat: no-repeat;
-            background-position: left center;
-        }
-
-        .scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .scroll-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
+            align-items: center;
+            justify-content: center;
         }
 
         .section {
-            min-width: 100vw;
-            height: 100vh;
-            scroll-snap-align: start;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px;
-            position: relative;
-        }
-
-        .content-wrapper {
+            display: none;
+            width: 90%;
             max-width: 1200px;
-            width: 100%;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.6s ease;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-content {
             display: flex;
+            align-items: flex-start;
             gap: 40px;
-            align-items: center;
         }
 
-        .content-wrapper.no-image {
-            justify-content: center;
-        }
-
-        .image-container {
+        .section-image {
             flex-shrink: 0;
         }
 
-        .image-container img {
+        .section-image img {
             max-width: 400px;
-            max-height: 500px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            object-fit: cover;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .text-content {
+        .section-image.wide img {
+            max-width: 100%;
+        }
+
+        .section-text {
             flex: 1;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            max-height: 70vh;
-            overflow-y: auto;
+            color: #2c3e50;
         }
 
-        .text-content::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .text-content::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
-            border-radius: 3px;
-        }
-
-        .text-content::-webkit-scrollbar-thumb {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 3px;
-        }
-
-        .text-content h1 {
-            color: #2e7d32;
+        .section-text h1 {
+            font-size: 3em;
             margin-bottom: 20px;
-            font-size: 2.5em;
+            color: #1a5f4a;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .text-content h2 {
-            color: #388e3c;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            font-size: 1.8em;
+        .section-text h2 {
+            font-size: 2em;
+            margin: 30px 0 15px;
+            color: #2a7a5f;
         }
 
-        .text-content h3 {
-            color: #4caf50;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.4em;
-        }
-
-        .text-content p {
-            color: #333;
+        .section-text p {
+            font-size: 1.2em;
             line-height: 1.8;
             margin-bottom: 15px;
+        }
+
+        .section-text strong {
+            color: #1a5f4a;
+            font-weight: 600;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .skill-category {
+            background: rgba(42, 122, 95, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #2a7a5f;
+        }
+
+        .skill-category h3 {
+            color: #1a5f4a;
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .skill-category li {
+            padding: 8px 0;
+            color: #34495e;
             font-size: 1.1em;
         }
 
-        .text-content ul, .text-content ol {
-            margin-left: 25px;
-            margin-bottom: 15px;
-            color: #444;
+        .skill-category li:before {
+            content: "▸ ";
+            color: #2a7a5f;
+            font-weight: bold;
+            margin-right: 8px;
         }
 
-        .text-content li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .text-content code {
-            background: rgba(76, 175, 80, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .text-content a {
-            color: #2e7d32;
-            text-decoration: none;
-            border-bottom: 2px solid transparent;
-            transition: border-color 0.3s;
-        }
-
-        .text-content a:hover {
-            border-bottom-color: #2e7d32;
-        }
-
-        .nav-indicator {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+        .contact-links {
             display: flex;
+            gap: 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
             gap: 10px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 10px 20px;
-            border-radius: 30px;
-            backdrop-filter: blur(5px);
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2a7a5f, #1a5f4a);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(42, 122, 95, 0.3);
         }
 
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
+        .contact-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(42, 122, 95, 0.5);
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: rgba(42, 122, 95, 0.95);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            font-weight: 600;
         }
 
-        .nav-dot.active {
-            background: white;
+        .nav-btn:hover {
+            background: rgba(26, 95, 74, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-dots {
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(42, 122, 95, 0.6);
+        }
+
+        .dot.active {
+            background: #2a7a5f;
             transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(42, 122, 95, 0.8);
+        }
+
+        .dot:hover {
+            transform: scale(1.2);
+            background: rgba(42, 122, 95, 0.8);
         }
 
         @media (max-width: 768px) {
             .section {
-                padding: 30px 20px;
+                padding: 30px;
             }
 
-            .content-wrapper {
+            .section-content {
                 flex-direction: column;
             }
 
-            .image-container img {
-                max-width: 300px;
-                max-height: 300px;
+            .section-image img {
+                max-width: 100%;
             }
 
-            .text-content {
-                padding: 25px;
-            }
-
-            .text-content h1 {
+            .section-text h1 {
                 font-size: 2em;
+            }
+
+            .nav-buttons {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .progress-dots {
+                left: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="scroll-container" id="scrollContainer">
-        <!-- Sections will be dynamically generated here -->
+    <div id="bg-container">
+        <img src="bg.png" alt="Background" id="bg-image">
     </div>
 
-    <div class="nav-indicator" id="navIndicator"></div>
+    <div class="container">
+        <!-- Section 1: About Me with Banner -->
+        <div class="section active" data-section="0">
+            <div class="section-content">
+                <div class="section-image wide">
+                    <img src="https://raw.githubusercontent.com/nguyenhhoa03/nguyenhhoa03/refs/heads/main/github-header-image.png" alt="Profile Banner">
+                </div>
+            </div>
+            <div class="section-text">
+                <h1>Nguyen Huu Hoa</h1>
+                <h2>About Me</h2>
+                <p>Hello! I'm <strong>Nguyen Huu Hoa</strong>, a passionate developer with hands-on experience in Python and Linux systems. I specialize in creating automation scripts, mini-applications, and productivity tools that solve real-world problems.</p>
+            </div>
+        </div>
+
+        <!-- Section 2: Technical Skills -->
+        <div class="section" data-section="1">
+            <div class="section-text">
+                <h1>Technical Skills</h1>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Systems & DevOps</h3>
+                        <ul>
+                            <li>Linux Distributions: Fedora, Nobara, CachyOS</li>
+                            <li>Desktop Environments: GNOME, KDE</li>
+                            <li>Shell Scripting: Bash, Zsh, Batch Script</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Programming & Development</h3>
+                        <ul>
+                            <li><strong>Python</strong>: Automation tools, GUI applications with CustomTkinter</li>
+                            <li>Linux Shell scripting for system administration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Connect -->
+        <div class="section" data-section="2">
+            <div class="section-text">
+                <h1>Connect With Me</h1>
+                <div class="contact-links">
+                    <a href="https://github.com/nguyenhhoa03" target="_blank">
+                        <span>🔗</span> GitHub: nguyenhhoa03
+                    </a>
+                    <a href="mailto:nguyenhhoa03@gmail.com">
+                        <span>📧</span> Email: nguyenhhoa03@gmail.com
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Collaborate -->
+        <div class="section" data-section="3">
+            <div class="section-text">
+                <h1>Let's Collaborate</h1>
+                <p>I'm always open to discussing new projects, sharing knowledge, or helping fellow developers with Python and Linux challenges. Whether you're looking for collaboration opportunities or need technical guidance, feel free to reach out!</p>
+                <p><strong>Get in touch</strong>: Create an issue on any of my repositories or send me an email directly.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-dots">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+        <div class="dot" data-index="3"></div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn">← Prev</button>
+        <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
 
     <script>
-        async function loadMarkdown() {
-            try {
-                const response = await window.fs.readFile('about.md', { encoding: 'utf8' });
-                return response;
-            } catch (error) {
-                console.error('Error loading about.md:', error);
-                return createDemoContent();
-            }
-        }
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.section');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const bgContainer = document.getElementById('bg-container');
+        const totalSections = sections.length;
 
-        function createDemoContent() {
-            return `# Chào mừng
-Đây là trang profile của tôi
-
----
-
-# Về tôi
-Tôi là một lập trình viên đam mê công nghệ
-
----
-
-# Kỹ năng
-- JavaScript
-- HTML/CSS
-- Python
-- React`;
-        }
-
-        function parseMarkdown(text) {
-            return text
-                .replace(/### (.*)/g, '<h3>$1</h3>')
-                .replace(/## (.*)/g, '<h2>$1</h2>')
-                .replace(/# (.*)/g, '<h1>$1</h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/`(.*?)`/g, '<code>$1</code>')
-                .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank">$1</a>')
-                .replace(/^- (.*)/gm, '<li>$1</li>')
-                .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-                .replace(/^\d+\. (.*)/gm, '<li>$1</li>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/^(?!<[h|u|o|l])(.*)/gm, '<p>$1</p>')
-                .replace(/<p><\/p>/g, '')
-                .replace(/<p>(<h[1-3]>)/g, '$1')
-                .replace(/(<\/h[1-3]>)<\/p>/g, '$1')
-                .replace(/<p>(<ul>)/g, '$1')
-                .replace(/(<\/ul>)<\/p>/g, '$1');
-        }
-
-        async function init() {
-            const markdown = await loadMarkdown();
-            const sections = markdown.split('---').map(s => s.trim()).filter(s => s);
-            
-            const container = document.getElementById('scrollContainer');
-            const navIndicator = document.getElementById('navIndicator');
-            
+        function updateSection() {
             sections.forEach((section, index) => {
-                const sectionDiv = document.createElement('div');
-                sectionDiv.className = 'section';
-                sectionDiv.dataset.index = index;
-                
-                const contentWrapper = document.createElement('div');
-                contentWrapper.className = 'content-wrapper no-image';
-                
-                const textContent = document.createElement('div');
-                textContent.className = 'text-content';
-                textContent.innerHTML = parseMarkdown(section);
-                
-                contentWrapper.appendChild(textContent);
-                sectionDiv.appendChild(contentWrapper);
-                container.appendChild(sectionDiv);
-                
-                const dot = document.createElement('div');
-                dot.className = 'nav-dot';
-                if (index === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    sectionDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-                });
-                navIndicator.appendChild(dot);
+                section.classList.toggle('active', index === currentSection);
             });
-            
-            const dots = document.querySelectorAll('.nav-dot');
-            container.addEventListener('scroll', () => {
-                const scrollLeft = container.scrollLeft;
-                const sectionWidth = window.innerWidth;
-                const currentIndex = Math.round(scrollLeft / sectionWidth);
-                
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('active', index === currentIndex);
-                });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSection);
             });
+
+            // Move background based on section
+            const bgOffset = -(currentSection * (100 / (totalSections - 1)));
+            bgContainer.style.transform = `translateX(${bgOffset}%)`;
+
+            prevBtn.disabled = currentSection === 0;
+            nextBtn.disabled = currentSection === totalSections - 1;
         }
 
-        init();
+        nextBtn.addEventListener('click', () => {
+            if (currentSection < totalSections - 1) {
+                currentSection++;
+                updateSection();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSection > 0) {
+                currentSection--;
+                updateSection();
+            }
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSection = index;
+                updateSection();
+            });
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' && currentSection < totalSections - 1) {
+                currentSection++;
+                updateSection();
+            } else if (e.key === 'ArrowLeft' && currentSection > 0) {
+                currentSection--;
+                updateSection();
+            }
+        });
+
+        updateSection();
     </script>
 </body>
 </html>
